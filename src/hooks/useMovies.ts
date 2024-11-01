@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import apiClient from "../services/api-client";
 
-interface Movies {
+export interface Movies {
   id: number;
   title: string;
+  poster_path: string;
 }
 
 interface FetchMovies {
