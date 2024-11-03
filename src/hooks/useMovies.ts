@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
 import apiClient from "../services/api-client";
+import { useQuery } from "react-query";
+import { Genre } from "./useGenres";
 
 export interface Movies {
   id: number;
   title: string;
   poster_path: string;
+  genre_ids: number[];
+  release_date: string;
 }
 
 interface FetchMovies {
@@ -12,18 +15,24 @@ interface FetchMovies {
   results: Movies[];
 }
 
-const useMovies = () => {
-  const [movies, setMovies] = useState<Movies[]>([]);
-  const [error, setError] = useState([]);
+const useMovies = (selectedGenre: Genre | null) => {
+  const {
+    data: movies,
+    error,
+    isLoading,
+  } = useQuery<Movies[], Error>({
+    queryKey: ["movies"],
+    queryFn: () =>
+      apiClient
+        .get<FetchMovies>("/trending/all/day", {
+          params: {
+            genres: selectedGenre?.id,
+          },
+        })
+        .then((res) => res.data.results),
+  });
 
-  useEffect(() => {
-    apiClient
-      .get<FetchMovies>("/trending/all/day")
-      .then((res) => setMovies(res.data.results))
-      .catch((err) => setError(err.message));
-  }, []);
-
-  return { movies, error };
+  return { movies, error, isLoading };
 };
 
 export default useMovies;
