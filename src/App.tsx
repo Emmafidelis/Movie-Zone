@@ -5,13 +5,13 @@ import MovieGrid from "./components/MovieGrid";
 import GenreList from "./components/GenreList";
 import { useState } from "react";
 import { Genre } from "./hooks/useGenres";
-import ReleasedDate from "./components/ReleaseDate";
 import { Discover } from "./hooks/useDiscover";
 import SortSelector from "./components/SortSelector";
 
 export interface MovieQuery {
   genre: Genre | null;
   date: Discover | null;
+  sortOrder: string;
 }
 
 function App() {
@@ -35,10 +35,12 @@ function App() {
         </GridItem>
         <GridItem area="main">
           <HStack spaceX={5} pl={2.5} marginBottom={3}>
-            <ReleasedDate
-              onSelectedDate={(date) => setMovieQuery({ ...movieQuery, date })}
+            <SortSelector
+              sortOrder={movieQuery.sortOrder}
+              onSelectSortOrder={(sortOrder) =>
+                setMovieQuery({ ...movieQuery, sortOrder })
+              }
             />
-            <SortSelector />
           </HStack>
           <MovieGrid movieQuery={movieQuery} />
         </GridItem>
