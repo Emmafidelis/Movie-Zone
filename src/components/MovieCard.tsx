@@ -15,7 +15,9 @@ const MovieCard = ({ movie }: Props) => {
       <CardBody>
         <Heading fontSize="2xl">{movie.title}</Heading>
         <HStack>
-          <ReleasedDate date={movie.release_date} />
+          <ReleasedDate
+            date={new Date(movie.release_date).getFullYear().toString()}
+          />
           {movie.genre_ids.map((genre) => (
             <Text key={genre}>{genre}</Text>
           ))}

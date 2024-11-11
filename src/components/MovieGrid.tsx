@@ -1,18 +1,25 @@
 import { SimpleGrid, Text } from "@chakra-ui/react";
 import useMovies from "../hooks/useMovies";
 import MovieCard from "./MovieCard";
-import { Genre } from "../hooks/useGenres";
+import { MovieQuery } from "../App";
 
 interface Props {
-  selectedGenre: Genre | null;
+  movieQuery: MovieQuery;
 }
 
-const MovieGrid = ({ selectedGenre }: Props) => {
-  const { movies, error } = useMovies(selectedGenre);
+const MovieGrid = ({ movieQuery }: Props) => {
+  const { movies, error } = useMovies(movieQuery);
 
-  const filteredMovies = selectedGenre
-    ? movies?.filter((movie) => movie.genre_ids.includes(selectedGenre.id))
-    : movies;
+  const filteredMovies = movies?.filter((movie) => {
+    const matchGenre = movieQuery.genre
+      ? movie.genre_ids.includes(movieQuery.genre.id)
+      : movies;
+    const matchDate = movieQuery.date
+      ? movie.release_date === movieQuery.date.release_date
+      : movies;
+
+    return matchGenre && matchDate;
+  });
 
   return (
     <>

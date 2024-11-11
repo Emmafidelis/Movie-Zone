@@ -1,6 +1,6 @@
 import apiClient from "../services/api-client";
 import { useQuery } from "react-query";
-import { Genre } from "./useGenres";
+import { MovieQuery } from "../App";
 
 export interface Movies {
   id: number;
@@ -15,7 +15,7 @@ interface FetchMovies {
   results: Movies[];
 }
 
-const useMovies = (selectedGenre: Genre | null) => {
+const useMovies = (movieQuery: MovieQuery) => {
   const {
     data: movies,
     error,
@@ -24,9 +24,11 @@ const useMovies = (selectedGenre: Genre | null) => {
     queryKey: ["movies"],
     queryFn: () =>
       apiClient
-        .get<FetchMovies>("/trending/all/day", {
+        .get<FetchMovies>("/discover/movie", {
           params: {
-            genres: selectedGenre?.id,
+            genres: movieQuery.genre?.id,
+            dates: movieQuery.date?.id,
+            sort_by: movieQuery.sortOrder,
           },
         })
         .then((res) => res.data.results),
