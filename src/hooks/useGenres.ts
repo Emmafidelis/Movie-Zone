@@ -1,13 +1,11 @@
-import apiClient from "../services/api-client";
+import APIClient, { FetchResponse } from "../services/api-client";
 import { useQuery } from "react-query";
+
+const apiClient = new APIClient<Genre>("genre/movie/list");
 
 export interface Genre {
   id: number;
   name: string;
-}
-
-interface GenreResponse {
-  genres: Genre[];
 }
 
 const useGenre = () => {
@@ -15,12 +13,9 @@ const useGenre = () => {
     data: genres,
     error,
     isLoading,
-  } = useQuery<Genre[], Error>({
+  } = useQuery<FetchResponse<Genre>, Error>({
     queryKey: ["genres"],
-    queryFn: () =>
-      apiClient
-        .get<GenreResponse>("genre/movie/list")
-        .then((res) => res.data.genres),
+    queryFn: apiClient.getAll,
     staleTime: 24 * 60 * 60 * 1000, //24hrs
   });
 

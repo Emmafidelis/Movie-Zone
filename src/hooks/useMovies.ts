@@ -1,6 +1,8 @@
-import apiClient from "../services/api-client";
 import { useQuery } from "react-query";
 import { MovieQuery } from "../App";
+import APIClient, { FetchResponse } from "../services/api-client";
+
+const apiClient = new APIClient<Movies>("/trending/all/day");
 
 export interface Movies {
   id: number;
@@ -10,28 +12,21 @@ export interface Movies {
   release_date: string;
 }
 
-interface FetchMovies {
-  page: number;
-  results: Movies[];
-}
-
 const useMovies = (movieQuery: MovieQuery) => {
   const {
     data: movies,
     error,
     isLoading,
-  } = useQuery<Movies[], Error>({
+  } = useQuery<FetchResponse<Movies>, Error>({
     queryKey: ["movies"],
     queryFn: () =>
-      apiClient
-        .get<FetchMovies>("/trending/all/day", {
-          params: {
-            genres: movieQuery.genre?.id,
-            dates: movieQuery.date?.id,
-            sort_by: movieQuery.sortOrder,
-          },
-        })
-        .then((res) => res.data.results),
+      apiClient.getAll({
+        params: {
+          genres: movieQuery.genre?.id,
+          dates: movieQuery.date?.id,
+          sort_by: movieQuery.sortOrder,
+        },
+      }),
   });
 
   return { movies, error, isLoading };

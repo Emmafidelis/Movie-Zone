@@ -19,7 +19,7 @@ const MovieGrid = ({ movieQuery }: Props) => {
 
   const skeletons = [1, 2, 3, 4, 5, 6];
 
-  const filteredMovies = displayMovies?.filter((movie) => {
+  const filteredMovies = displayMovies?.results.filter((movie) => {
     const matchGenre = movieQuery.genre
       ? movie.genre_ids.includes(movieQuery.genre.id)
       : true;
@@ -42,13 +42,13 @@ const MovieGrid = ({ movieQuery }: Props) => {
       >
         {isLoading &&
           skeletons.map((skeleton) => (
-            <MovieCardContainer>
-              <MovieCardSkeleton key={skeleton} />
+            <MovieCardContainer key={skeleton}>
+              <MovieCardSkeleton />
             </MovieCardContainer>
           ))}
         {filteredMovies?.map((movie) => (
-          <MovieCardContainer>
-            <MovieCard key={movie.id} movie={movie} />
+          <MovieCardContainer key={movie.id}>
+            <MovieCard movie={movie} />
           </MovieCardContainer>
         ))}
       </SimpleGrid>

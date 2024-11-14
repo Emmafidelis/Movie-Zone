@@ -14,7 +14,7 @@ const GenreList = ({ onSelectGenre }: Props) => {
       {error && <Text>{error.message}</Text>}
       <Heading px={2}>Genres</Heading>
       <List.Root variant="plain" align="center" px={2}>
-        {genres?.map((genre) => (
+        {genres?.genres.map((genre) => (
           <ListItem key={genre.id}>
             <Button
               onClick={() => onSelectGenre(genre)}

@@ -1,23 +1,21 @@
-import apiClient from "../services/api-client";
+import APIClient, { FetchResponse } from "../services/api-client";
 import { useQuery } from "react-query";
 import { Movies } from "./useMovies";
 
-interface FetchMovies {
-  results: Movies[];
-}
+const apiClient = new APIClient<Movies>("/search/multi");
 
 const useSearch = (query: string) => {
-  const { data: searchResults, error } = useQuery<Movies[], Error>({
-    queryKey: ["searching", query],
-    queryFn: () =>
-      apiClient
-        .get<FetchMovies>("/search/multi", {
+  const { data: searchResults, error } = useQuery<FetchResponse<Movies>, Error>(
+    {
+      queryKey: ["searching", query],
+      queryFn: () =>
+        apiClient.getAll({
           params: { query },
-        })
-        .then((res) => res.data.results),
-    enabled: !!query,
-    staleTime: 1000 * 60 * 5,
-  });
+        }),
+      enabled: !!query,
+      staleTime: 1000 * 60 * 5,
+    }
+  );
 
   return { searchResults, error };
 };
