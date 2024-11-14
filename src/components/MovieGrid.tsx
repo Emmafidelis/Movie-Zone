@@ -3,6 +3,8 @@ import useMovies from "../hooks/useMovies";
 import MovieCard from "./MovieCard";
 import { MovieQuery } from "../App";
 import useSearch from "../hooks/useSearch";
+import MovieCardSkeleton from "./MovieCardSkeleton";
+import MovieCardContainer from "./MovieCardContainer";
 
 interface Props {
   movieQuery: MovieQuery;
@@ -11,9 +13,11 @@ interface Props {
 const MovieGrid = ({ movieQuery }: Props) => {
   const { searchResults } = useSearch(movieQuery.searchText);
 
-  const { movies, error } = useMovies(movieQuery);
+  const { movies, error, isLoading } = useMovies(movieQuery);
 
   const displayMovies = movieQuery.searchText ? searchResults : movies;
+
+  const skeletons = [1, 2, 3, 4, 5, 6];
 
   const filteredMovies = displayMovies?.filter((movie) => {
     const matchGenre = movieQuery.genre
@@ -31,13 +35,21 @@ const MovieGrid = ({ movieQuery }: Props) => {
     <>
       {error && <Text>{error.message}</Text>}
       <SimpleGrid
-        columns={{ sm: 1, md: 2, lg: 3, xl: 5 }}
-        spaceX={5}
-        spaceY={5}
+        columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
+        spaceX={1}
+        spaceY={1}
         p={3}
       >
+        {isLoading &&
+          skeletons.map((skeleton) => (
+            <MovieCardContainer>
+              <MovieCardSkeleton key={skeleton} />
+            </MovieCardContainer>
+          ))}
         {filteredMovies?.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCardContainer>
+            <MovieCard key={movie.id} movie={movie} />
+          </MovieCardContainer>
         ))}
       </SimpleGrid>
     </>

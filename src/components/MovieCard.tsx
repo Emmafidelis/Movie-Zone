@@ -10,7 +10,7 @@ interface Props {
 
 const MovieCard = ({ movie }: Props) => {
   return (
-    <Card.Root borderRadius={10} overflow="hidden">
+    <Card.Root>
       <Image src={`${BASE_IMAGE_URL}${movie.poster_path}`} />
       <CardBody>
         <Heading fontSize="2xl">{movie.title}</Heading>
