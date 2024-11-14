@@ -12,6 +12,7 @@ export interface MovieQuery {
   genre: Genre | null;
   date: Discover | null;
   sortOrder: string;
+  searchText: string;
 }
 
 function App() {
@@ -26,7 +27,11 @@ function App() {
         }}
       >
         <GridItem area="nav">
-          <NavBar />
+          <NavBar
+            onSearch={(searchText) =>
+              setMovieQuery({ ...movieQuery, searchText })
+            }
+          />
         </GridItem>
         <GridItem hideBelow="lg" area="aside">
           <GenreList

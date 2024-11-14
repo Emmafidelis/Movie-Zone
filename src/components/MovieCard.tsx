@@ -18,7 +18,7 @@ const MovieCard = ({ movie }: Props) => {
           <ReleasedDate
             date={new Date(movie.release_date).getFullYear().toString()}
           />
-          {movie.genre_ids.map((genre) => (
+          {movie.genre_ids?.map((genre) => (
             <Text key={genre}>{genre}</Text>
           ))}
         </HStack>

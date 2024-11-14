@@ -24,7 +24,7 @@ const useMovies = (movieQuery: MovieQuery) => {
     queryKey: ["movies"],
     queryFn: () =>
       apiClient
-        .get<FetchMovies>("/discover/movie", {
+        .get<FetchMovies>("/trending/all/day", {
           params: {
             genres: movieQuery.genre?.id,
             dates: movieQuery.date?.id,
