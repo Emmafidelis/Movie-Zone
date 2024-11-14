@@ -1,10 +1,11 @@
-import { SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, SimpleGrid, Text } from "@chakra-ui/react";
 import useMovies from "../hooks/useMovies";
 import MovieCard from "./MovieCard";
 import { MovieQuery } from "../App";
 import useSearch from "../hooks/useSearch";
 import MovieCardSkeleton from "./MovieCardSkeleton";
 import MovieCardContainer from "./MovieCardContainer";
+import { Button } from "../component/ui/button";
 
 interface Props {
   movieQuery: MovieQuery;
@@ -13,13 +14,22 @@ interface Props {
 const MovieGrid = ({ movieQuery }: Props) => {
   const { searchResults } = useSearch(movieQuery.searchText);
 
-  const { movies, error, isLoading } = useMovies(movieQuery);
+  const {
+    movies,
+    error,
+    isLoading,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useMovies(movieQuery);
 
-  const displayMovies = movieQuery.searchText ? searchResults : movies;
+  const displayMovies = movieQuery.searchText
+    ? searchResults?.results || []
+    : movies?.pages?.flatMap((page) => page.results) || [];
 
   const skeletons = [1, 2, 3, 4, 5, 6];
 
-  const filteredMovies = displayMovies?.results.filter((movie) => {
+  const filteredMovies = displayMovies.filter((movie) => {
     const matchGenre = movieQuery.genre
       ? movie.genre_ids.includes(movieQuery.genre.id)
       : true;
@@ -32,13 +42,12 @@ const MovieGrid = ({ movieQuery }: Props) => {
   });
 
   return (
-    <>
+    <Box p={3}>
       {error && <Text>{error.message}</Text>}
       <SimpleGrid
         columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
         spaceX={1}
         spaceY={1}
-        p={3}
       >
         {isLoading &&
           skeletons.map((skeleton) => (
@@ -52,7 +61,12 @@ const MovieGrid = ({ movieQuery }: Props) => {
           </MovieCardContainer>
         ))}
       </SimpleGrid>
-    </>
+      {hasNextPage && (
+        <Button onClick={() => fetchNextPage()} marginY={5}>
+          {isFetchingNextPage ? "Loading.." : "Load More"}
+        </Button>
+      )}
+    </Box>
   );
 };
 
