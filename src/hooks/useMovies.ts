@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "react-query";
-import { MovieQuery } from "../App";
 import APIClient, { FetchResponse } from "../services/api-client";
+import useMovieQueryStore from "../store";
 
 const apiClient = new APIClient<Movies>("/trending/all/day");
 
@@ -12,21 +12,14 @@ export interface Movies {
   release_date: string;
 }
 
-const useMovies = (movieQuery: MovieQuery) => {
-  const {
-    data: movies,
-    error,
-    isLoading,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-  } = useInfiniteQuery<FetchResponse<Movies>, Error>({
+const useMovies = () => {
+  const movieQuery = useMovieQueryStore((s) => s.movieQuery);
+  return useInfiniteQuery<FetchResponse<Movies>, Error>({
     queryKey: ["movies"],
     queryFn: ({ pageParam = 1 }) =>
       apiClient.getAll({
         params: {
           genres: movieQuery.genre?.id,
-          dates: movieQuery.date?.id,
           page: pageParam,
           sort_by: movieQuery.sortOrder,
         },
@@ -34,16 +27,8 @@ const useMovies = (movieQuery: MovieQuery) => {
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.page + 1 ? allPages.length + 1 : undefined;
     },
+    staleTime: 24 * 60 * 60 * 1000, //24hrs
   });
-
-  return {
-    movies,
-    error,
-    isLoading,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-  };
 };
 
 export default useMovies;

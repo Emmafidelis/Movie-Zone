@@ -1,13 +1,11 @@
-import useGenres, { Genre } from "../hooks/useGenres";
+import useGenres from "../hooks/useGenres";
 import { Heading, List, ListItem, Text } from "@chakra-ui/react";
 import { Button } from "../component/ui/button";
+import useMovieQueryStore from "../store";
 
-interface Props {
-  onSelectGenre: (genre: Genre) => void;
-}
-
-const GenreList = ({ onSelectGenre }: Props) => {
+const GenreList = () => {
   const { genres, error } = useGenres();
+  const onSelectGenre = useMovieQueryStore((s) => s.setGenre);
 
   return (
     <>

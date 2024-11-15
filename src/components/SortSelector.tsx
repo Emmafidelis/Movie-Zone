@@ -6,19 +6,18 @@ import {
   MenuTrigger,
   MenuContent,
 } from "../component/ui/menu";
+import useMovieQueryStore from "../store";
 
-interface Props {
-  onSelectSortOrder: (sortOrder: string) => void;
-  sortOrder: string;
-}
-
-const SortSelector = ({ onSelectSortOrder, sortOrder }: Props) => {
+const SortSelector = () => {
   const sortOrders = [
     { value: "", label: "Relevance" },
     { value: "popularity.desc", label: "Popularity" },
     { value: "primary_release_date.desc", label: "Release_date" },
     { value: "vote_average.desc", label: "Rating" },
   ];
+
+  const sortOrder = useMovieQueryStore((s) => s.movieQuery.sortOrder);
+  const onSelectSortOrder = useMovieQueryStore((s) => s.setSortOrder);
 
   const currentSortOrder = sortOrders.find(
     (order) => order.value === sortOrder

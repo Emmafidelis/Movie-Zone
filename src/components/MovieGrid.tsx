@@ -1,27 +1,25 @@
 import { Box, SimpleGrid, Text } from "@chakra-ui/react";
 import useMovies from "../hooks/useMovies";
 import MovieCard from "./MovieCard";
-import { MovieQuery } from "../App";
 import useSearch from "../hooks/useSearch";
 import MovieCardSkeleton from "./MovieCardSkeleton";
 import MovieCardContainer from "./MovieCardContainer";
 import { Button } from "../component/ui/button";
+import useMovieQueryStore from "../store";
 
-interface Props {
-  movieQuery: MovieQuery;
-}
+const MovieGrid = () => {
+  const movieQuery = useMovieQueryStore((s) => s.movieQuery);
 
-const MovieGrid = ({ movieQuery }: Props) => {
-  const { searchResults } = useSearch(movieQuery.searchText);
+  const { data: searchResults } = useSearch(movieQuery.searchText);
 
   const {
-    movies,
+    data: movies,
     error,
     isLoading,
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useMovies(movieQuery);
+  } = useMovies();
 
   const displayMovies = movieQuery.searchText
     ? searchResults?.results || []
@@ -34,11 +32,7 @@ const MovieGrid = ({ movieQuery }: Props) => {
       ? movie.genre_ids.includes(movieQuery.genre.id)
       : true;
 
-    const matchDate = movieQuery.date
-      ? movie.release_date === movieQuery.date.release_date
-      : true;
-
-    return matchGenre && matchDate;
+    return matchGenre;
   });
 
   return (
