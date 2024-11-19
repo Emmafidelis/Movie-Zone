@@ -1,22 +1,17 @@
-import "./App.css";
 import { Grid, GridItem, HStack } from "@chakra-ui/react";
-import NavBar from "./components/NavBar";
-import MovieGrid from "./components/MovieGrid";
-import GenreList from "./components/GenreList";
-import SortSelector from "./components/SortSelector";
+import GenreList from "../components/GenreList";
+import SortSelector from "../components/SortSelector";
+import MovieGrid from "../components/MovieGrid";
 
-function App() {
+const HomePage = () => {
   return (
     <>
       <Grid
         templateAreas={{
-          base: `"nav" "main"`,
-          lg: `"nav nav" "aside main"`,
+          base: `"main"`,
+          lg: `"aside main"`,
         }}
       >
-        <GridItem area="nav">
-          <NavBar />
-        </GridItem>
         <GridItem hideBelow="lg" area="aside">
           <GenreList />
         </GridItem>
@@ -29,6 +24,6 @@ function App() {
       </Grid>
     </>
   );
-}
+};
 
-export default App;
+export default HomePage;
