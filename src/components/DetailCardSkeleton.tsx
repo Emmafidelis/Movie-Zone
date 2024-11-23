@@ -1,7 +1,7 @@
 import { Card, CardBody } from "@chakra-ui/react/card";
 import { Skeleton, SkeletonText } from "../component/ui/skeleton";
 
-const MovieCardSkeleton = () => {
+const DetailCardSkeleton = () => {
   return (
     <Card.Root width="300px">
       <Skeleton height="200px" />
@@ -12,4 +12,4 @@ const MovieCardSkeleton = () => {
   );
 };
 
-export default MovieCardSkeleton;
+export default DetailCardSkeleton;

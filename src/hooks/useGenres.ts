@@ -1,14 +1,11 @@
 import APIClient, { FetchResponse } from "../services/api-client";
 import { useQuery } from "react-query";
+import { Genre } from "../entities/Genre";
 
-const apiClient = new APIClient<Genre>("genre/movie/list");
+const useGenre = (type?: string) => {
+  const endpoint = type === "tv" ? "/genre/tv/list" : "/genre/movie/list";
+  const apiClient = new APIClient<Genre>(endpoint);
 
-export interface Genre {
-  id: number;
-  name: string;
-}
-
-const useGenre = () => {
   const {
     data: genres,
     error,

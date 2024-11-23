@@ -1,29 +1,29 @@
 import { Box, SimpleGrid, Text } from "@chakra-ui/react";
-import useMovies from "../hooks/useMovies";
-import MovieCard from "./MovieCard";
+import useDetails from "../hooks/useDetails";
+import DetailCard from "./DetailCard";
 import useSearch from "../hooks/useSearch";
-import MovieCardSkeleton from "./MovieCardSkeleton";
-import MovieCardContainer from "./MovieCardContainer";
+import DetailCardSkeleton from "./DetailCardSkeleton";
+import DetailCardContainer from "./DetailCardContainer";
 import { Button } from "../component/ui/button";
 import useMovieQueryStore from "../store";
 
-const MovieGrid = () => {
+const DetailGrid = () => {
   const movieQuery = useMovieQueryStore((s) => s.movieQuery);
 
   const { data: searchResults } = useSearch(movieQuery.searchText);
 
   const {
-    data: movies,
+    data: details,
     error,
     isLoading,
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useMovies();
+  } = useDetails();
 
   const displayMovies = movieQuery.searchText
     ? searchResults?.results || []
-    : movies?.pages?.flatMap((page) => page.results) || [];
+    : details?.pages?.flatMap((page) => page.results) || [];
 
   const skeletons = [1, 2, 3, 4, 5, 6];
 
@@ -40,19 +40,19 @@ const MovieGrid = () => {
       {error && <Text>{error.message}</Text>}
       <SimpleGrid
         columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
-        spaceX={1}
-        spaceY={1}
+        spaceX={3}
+        spaceY={3}
       >
         {isLoading &&
           skeletons.map((skeleton) => (
-            <MovieCardContainer key={skeleton}>
-              <MovieCardSkeleton />
-            </MovieCardContainer>
+            <DetailCardContainer key={skeleton}>
+              <DetailCardSkeleton />
+            </DetailCardContainer>
           ))}
         {filteredMovies?.map((movie) => (
-          <MovieCardContainer key={movie.id}>
-            <MovieCard movie={movie} />
-          </MovieCardContainer>
+          <DetailCardContainer key={movie.id}>
+            <DetailCard detail={movie} />
+          </DetailCardContainer>
         ))}
       </SimpleGrid>
       {hasNextPage && (
@@ -64,4 +64,4 @@ const MovieGrid = () => {
   );
 };
 
-export default MovieGrid;
+export default DetailGrid;

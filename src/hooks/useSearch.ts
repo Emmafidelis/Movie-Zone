@@ -1,11 +1,11 @@
 import APIClient, { FetchResponse } from "../services/api-client";
 import { useQuery } from "react-query";
-import { Movies } from "./useMovies";
+import { Details } from "../entities/Details";
 
-const apiClient = new APIClient<Movies>("/search/multi");
+const apiClient = new APIClient<Details>("/search/multi");
 
 const useSearch = (query?: string) => {
-  return useQuery<FetchResponse<Movies>, Error>({
+  return useQuery<FetchResponse<Details>, Error>({
     queryKey: ["searching", query],
     queryFn: () =>
       apiClient.getAll({

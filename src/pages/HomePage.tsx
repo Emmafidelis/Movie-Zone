@@ -1,7 +1,7 @@
 import { Grid, GridItem, HStack } from "@chakra-ui/react";
 import GenreList from "../components/GenreList";
 import SortSelector from "../components/SortSelector";
-import MovieGrid from "../components/MovieGrid";
+import DetailGrid from "../components/DetailGrid";
 
 const HomePage = () => {
   return (
@@ -19,7 +19,7 @@ const HomePage = () => {
           <HStack spaceX={5} pl={2.5} marginBottom={3}>
             <SortSelector />
           </HStack>
-          <MovieGrid />
+          <DetailGrid />
         </GridItem>
       </Grid>
     </>

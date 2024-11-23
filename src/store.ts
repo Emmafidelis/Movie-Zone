@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Genre } from "./hooks/useGenres";
+import { Genre } from "./entities/Genre";
 
 interface MovieQuery {
   genre?: Genre | null;
