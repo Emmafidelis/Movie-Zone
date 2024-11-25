@@ -39,7 +39,9 @@ const DetailCard = ({ detail }: Props) => {
               .toString()}
           />
           {detail.genre_ids?.map((genre) => (
-            <Text key={genre}>{genreMap[genre]}</Text>
+            <Text overflow="hidden" textWrap="nowrap" key={genre}>
+              {genreMap[genre]}
+            </Text>
           ))}
         </HStack>
       </CardBody>

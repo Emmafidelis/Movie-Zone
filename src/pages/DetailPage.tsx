@@ -3,6 +3,7 @@ import useMovieDetail from "../hooks/useMovieDetail";
 import { Spinner } from "@chakra-ui/react/spinner";
 import { Heading } from "@chakra-ui/react";
 import ExpandableText from "../components/ExpandableText";
+import DetailTrailer from "../components/DetailTrailer";
 
 const DetailPage = () => {
   const { type, movie_id } = useParams();
@@ -16,8 +17,9 @@ const DetailPage = () => {
 
   return (
     <>
-      <Heading>{details.title || details.name}</Heading>
+      <Heading>{details.title || details?.name}</Heading>
       <ExpandableText>{details.overview}</ExpandableText>
+      <DetailTrailer id={details.id} />
     </>
   );
 };
