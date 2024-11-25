@@ -4,6 +4,7 @@ export interface FetchResponse<T> {
   page: number;
   results: T[];
   genres: T[];
+  backdrops: T[];
 }
 
 const axiosInstance = axios.create({

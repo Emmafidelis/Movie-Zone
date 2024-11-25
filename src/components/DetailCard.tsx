@@ -14,14 +14,15 @@ const DetailCard = ({ detail }: Props) => {
   const type = detail.media_type || "tv";
   const { genres } = useGenre();
 
-  if (!genres?.genres) {
-    return {} as Record<number, string>;
-  }
+  // if (!genres?.genres) {
+  //   return {} as Record<number, string>;
+  // }
 
-  const genreMap = genres?.genres.reduce((acc, genre) => {
-    acc[genre.id] = genre.name;
-    return acc;
-  }, {} as Record<number, string>);
+  const genreMap =
+    genres?.genres.reduce((acc, genre) => {
+      acc[genre.id] = genre.name;
+      return acc;
+    }, {} as Record<number, string>) || "";
 
   return (
     <Card.Root>

@@ -1,3 +1,4 @@
+import YouTube from "react-youtube";
 import useTrailers from "../hooks/useTrailers";
 
 interface Props {
@@ -13,15 +14,11 @@ const DetailTrailer = ({ id }: Props) => {
 
   const trailer = videos?.results?.find((video) => video.type === "Trailer");
 
-  return (
-    <iframe
-      width="100%"
-      height="400px"
-      src={`https://www.youtube.com/embed/${trailer?.key}`}
-      title={trailer?.name}
-      allow="fullscreen; encrypted-media"
-    />
-  );
+  const opts = {
+    width: "100%",
+  };
+
+  return <YouTube videoId={trailer?.key} opts={opts} title={trailer?.name} />;
 };
 
 export default DetailTrailer;
