@@ -3,12 +3,14 @@ import APIClient from "../services/api-client";
 import Trailer from "../entities/trailers";
 
 const useTrailers = (id: number, type?: string) => {
-  const endpoint = type === "tv" ? `/tv` : `/movie`;
-  const apiClient = new APIClient<Trailer>(`${endpoint}/${id}/videos`);
+  // Dynamically set the base endpoint for movies or TV shows
+  const endpoint = type === "tv" ? `/tv/${id}/videos` : `/movie/${id}/videos`;
+  const apiClient = new APIClient<Trailer>(endpoint);
 
   return useQuery({
-    queryKey: [type, id],
+    queryKey: ["videos", type, id], // Unique key per type/id
     queryFn: apiClient.getAll,
+    enabled: !!id, // Only fetch if ID exists
   });
 };
 

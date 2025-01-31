@@ -1,5 +1,4 @@
 import { BsChevronDown } from "react-icons/bs";
-import { Button } from "../component/ui/button";
 import {
   MenuItem,
   MenuRoot,
@@ -7,6 +6,7 @@ import {
   MenuContent,
 } from "../component/ui/menu";
 import useMovieQueryStore from "../store";
+import { Button } from "@chakra-ui/react";
 
 const SortSelector = () => {
   const sortOrders = [

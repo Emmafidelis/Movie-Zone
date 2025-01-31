@@ -1,10 +1,9 @@
-import { Box, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, Button, SimpleGrid, Text } from "@chakra-ui/react";
 import useDetails from "../hooks/useDetails";
 import DetailCard from "./DetailCard";
 import useSearch from "../hooks/useSearch";
 import DetailCardSkeleton from "./DetailCardSkeleton";
 import DetailCardContainer from "./DetailCardContainer";
-import { Button } from "../component/ui/button";
 import useMovieQueryStore from "../store";
 
 const DetailGrid = () => {

@@ -1,6 +1,5 @@
 import useGenres from "../hooks/useGenres";
-import { Heading, List, ListItem, Text } from "@chakra-ui/react";
-import { Button } from "../component/ui/button";
+import { Button, Heading, List, ListItem, Text } from "@chakra-ui/react";
 import useMovieQueryStore from "../store";
 
 const GenreList = () => {

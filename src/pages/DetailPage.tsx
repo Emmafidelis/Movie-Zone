@@ -7,9 +7,12 @@ import DetailTrailer from "../components/DetailTrailer";
 import DetailScreenshot from "../components/DetailScreenshot";
 
 const DetailPage = () => {
-  const { type, movie_id } = useParams();
-
-  const id = movie_id ? parseInt(movie_id) : undefined;
+  const { series_id, movie_id } = useParams();
+  
+  // Determine type and ID based on which parameter exists
+  const type = series_id ? "tv" : "movie";
+  const idParam = series_id || movie_id;
+  const id = idParam ? parseInt(idParam) : undefined;
 
   const { data: details, isLoading, error } = useMovieDetail(id, type);
 
@@ -19,12 +22,12 @@ const DetailPage = () => {
   return (
     <SimpleGrid columns={{ base: 1, md: 2 }}>
       <Box>
-        <Heading>{details.title || details?.name}</Heading>
+        <Heading>{details.title || details.name}</Heading>
         <ExpandableText>{details.overview}</ExpandableText>
       </Box>
       <Box>
-        <DetailScreenshot id={details.id} />
-        <DetailTrailer id={details.id} />
+        <DetailScreenshot id={details.id} type={type} />
+        <DetailTrailer id={details.id} type={type}  />
       </Box>
     </SimpleGrid>
   );
